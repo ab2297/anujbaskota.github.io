@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anuj Baskota — Cornell BME</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Source+Sans+3:wght@300;400;600&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #0d0f12;
+      --surface:   #13161b;
+      --border:    #232730;
+      --accent:    #4a90d9;
+      --accent-dim:#2e5f96;
+      --text:      #e8eaf0;
+      --muted:     #8b919e;
+      --serif:     'Merriweather', Georgia, serif;
+      --sans:      'Source Sans 3', system-ui, sans-serif;
+      --mono:      'Source Code Pro', monospace;
+      --max:       900px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--sans); font-size: 16px; line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { max-width: 100%; display: block; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,15,18,0.94); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .inner {
+      max-width: var(--max); margin: 0 auto; padding: 0 28px;
+      display: flex; align-items: center; justify-content: space-between; height: 54px;
+    }
+    .brand { font-family: var(--serif); font-size: 0.93rem; font-weight: 700; color: var(--text); }
+    nav ul { list-style: none; display: flex; gap: 22px; }
+    nav ul a {
+      font-size: 0.77rem; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted); transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--text); text-decoration: none; }
+
+    /* Layout */
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+    section { padding: 68px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+    .section-label {
+      font-family: var(--mono); font-size: 0.7rem; color: var(--accent);
+      letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 5px;
+    }
+    h2 {
+      font-family: var(--serif); font-size: 1.5rem; font-weight: 700;
+      color: var(--text); margin-bottom: 36px; letter-spacing: -0.01em;
+    }
+    h3 { font-family: var(--serif); font-size: 1rem; font-weight: 700; line-height: 1.4; color: var(--text); }
+
+    /* Home */
+    #home { padding: 76px 0 60px; }
+    .hero-grid { display: grid; grid-template-columns: 172px 1fr; gap: 52px; align-items: start; }
+    .avatar-placeholder {
+      width: 160px; height: 190px; border-radius: 4px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 0.72rem; letter-spacing: 0.04em; text-align: center; padding: 12px;
+    }
+    .avatar-wrap img { width: 160px; height: 190px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); }
+    .hero-text h1 { font-family: var(--serif); font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+    .hero-text .position { font-size: 0.9rem; color: var(--accent); font-weight: 600; letter-spacing: 0.02em; margin-bottom: 18px; }
+    .hero-text p { font-size: 0.95rem; color: var(--text); max-width: 560px; margin-bottom: 10px; }
+    .contact-row { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .email-chip {
+      font-family: var(--mono); font-size: 0.78rem; color: var(--muted);
+      background: var(--surface); border: 1px solid var(--border); padding: 5px 12px; border-radius: 3px;
+    }
+    .email-chip a { color: var(--muted); }
+    .email-chip a:hover { color: var(--accent); text-decoration: none; }
+    .social-links { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .social-links a {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid var(--border); padding: 6px 14px; border-radius: 3px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .social-links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* Research */
+    .research-grid { display: grid; gap: 28px; }
+    .research-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 28px;
+      display: grid; grid-template-columns: 1fr 210px; gap: 28px; align-items: start;
+      transition: border-color 0.25s;
+    }
+    .research-card:hover { border-color: var(--accent-dim); }
+    .research-card h3 { margin-bottom: 10px; font-size: 1.02rem; }
+    .research-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+    .card-pubs { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .pub-chip {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--accent); background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.22); padding: 3px 9px; border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .pub-chip:hover { background: rgba(74,144,217,0.18); text-decoration: none; }
+    .card-media {
+      border-radius: 3px; overflow: hidden; background: var(--bg); border: 1px solid var(--border);
+      min-height: 120px; display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 0.72rem; text-align: center; padding: 10px;
+    }
+    .card-media img { width: 100%; height: auto; display: block; }
+
+    /* Publications */
+    .pub-list { display: grid; gap: 22px; }
+    .pub-item { border-left: 2px solid var(--border); padding-left: 20px; transition: border-color 0.2s; }
+    .pub-item:hover { border-color: var(--accent); }
+    .pub-venue { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+    .pub-item h3 { font-size: 0.93rem; font-weight: 700; margin-bottom: 3px; }
+    .pub-authors { font-size: 0.81rem; color: var(--muted); font-style: italic; margin-bottom: 3px; }
+    .pub-meta { font-size: 0.78rem; color: var(--muted); }
+    .pub-meta a { font-weight: 600; }
+
+    /* Talks */
+    .talks-list { display: grid; gap: 0; }
+    .talk-item {
+      display: grid; grid-template-columns: 80px 1fr; gap: 16px;
+      padding: 16px 0; border-bottom: 1px solid var(--border);
+    }
+    .talk-item:last-child { border-bottom: none; }
+    .talk-year { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); padding-top: 3px; }
+    .talk-item h3 { font-size: 0.92rem; }
+    .talk-item p { font-size: 0.83rem; color: var(--muted); margin-top: 2px; }
+    .award-badge {
+      display: inline-block; margin-left: 8px;
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.05em;
+      background: rgba(74,144,217,0.12); color: var(--accent);
+      border: 1px solid rgba(74,144,217,0.3); padding: 1px 7px; border-radius: 2px; vertical-align: middle;
+    }
+
+    /* CV */
+    .cv-block { margin-bottom: 44px; }
+    .cv-block:last-child { margin-bottom: 0; }
+    .cv-subtitle {
+      font-family: var(--mono); font-size: 0.68rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .tl-item {
+      display: grid; grid-template-columns: 120px 1fr; gap: 16px;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+    }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-year { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); padding-top: 2px; line-height: 1.5; }
+    .tl-content h3 { font-size: 0.93rem; }
+    .tl-content p { font-size: 0.83rem; color: var(--muted); margin-top: 2px; }
+    .tl-content .sub { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+    .inline-list { list-style: none; display: grid; gap: 12px; }
+    .inline-list li { font-size: 0.87rem; color: var(--muted); padding-left: 16px; position: relative; line-height: 1.65; }
+    .inline-list li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
+    .inline-list li strong { color: var(--text); }
+
+    /* Footer */
+    footer { padding: 30px 0; text-align: center; font-size: 0.76rem; color: var(--muted); letter-spacing: 0.02em; border-top: 1px solid var(--border); }
+
+    /* Responsive */
+    @media (max-width: 660px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+      .research-card { grid-template-columns: 1fr; }
+      .card-media { order: -1; min-height: 80px; }
+      .tl-item { grid-template-columns: 72px 1fr; }
+      nav ul { gap: 12px; }
+      nav ul a { font-size: 0.72rem; letter-spacing: 0.03em; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <span class="brand">Anuj Baskota</span>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#talks">Talks</a></li>
+      <li><a href="#cv">CV</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section id="home">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="avatar-wrap">
+        <!-- Replace with: <img src="assets/photo.jpg" alt="Anuj Baskota"> -->
+        <div class="avatar-placeholder">Photo<br>placeholder</div>
+      </div>
+      <div class="hero-text">
+        <h1>Anuj Baskota</h1>
+        <div class="position">PhD Student · Biomedical Engineering · Cornell University</div>
+        <p>
+          I develop imaging protocols at the intersection of high-frequency acoustics, optics, and
+          microfluidics — using GHz ultrasound and multiphoton microscopy to visualize biological
+          and physical phenomena at micro- and nanoscale resolution.
+        </p>
+        <p>
+          My current work focuses on intravital multiphoton imaging of tumor immunology (Xu Lab, Cornell)
+          and on integrating GHz ultrasonic systems with optical and mechanical modalities for
+          next-generation bioimaging platforms.
+        </p>
+        <div class="contact-row">
+          <span class="email-chip"><a href="mailto:ab2297@cornell.edu">ab2297@cornell.edu</a></span>
+          <span class="email-chip"><a href="mailto:anuj@geegah.com">anuj@geegah.com</a></span>
+        </div>
+        <div class="social-links">
+          <a href="https://scholar.google.com/citations?user=CKPaqt8AAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="container">
+    <div class="section-label">Research</div>
+    <h2>Current Projects</h2>
+    <div class="research-grid">
+
+      <div class="research-card">
+        <div>
+          <h3>Multiphoton Imaging of Tumor Immunology</h3>
+          <p>
+            Developing 2-photon and 3-photon intravital microscopy protocols to study immune-oncology
+            interactions in living tissue. Conducted in the Xu Lab at Cornell, this work enables
+            deep-tissue, high-resolution visualization of immune cell behavior and tumor
+            microenvironments with minimal photodamage.
+          </p>
+          <div class="card-pubs">
+            <!-- Add publication chips here as work is published -->
+          </div>
+        </div>
+        <div class="card-media">
+          <!-- <img src="assets/multiphoton.gif" alt="Multiphoton tumor imaging"> -->
+          Image / GIF placeholder
+        </div>
+      </div>
+
+      <div class="research-card">
+        <div>
+          <h3>GHz Ultrasonic Imaging of <em>C. elegans</em></h3>
+          <p>
+            Real-time GHz ultrasonic imaging of the nematode <em>C. elegans</em> at microscopic resolution,
+            enabling non-invasive visualization and mechanical characterization of cuticle stiffness,
+            morphology, and aging. Acoustic impedance modeling reveals age-dependent biomechanical changes
+            inaccessible to optical methods alone.
+          </p>
+          <div class="card-pubs">
+            <a class="pub-chip" href="https://doi.org/10.1109/UFFC-JS60046.2024.10794041" target="_blank">IUS 2024</a>
+            <a class="pub-chip" href="https://doi.org/10.1093/micmic/ozad067.572" target="_blank">M&amp;M 2023</a>
+            <a class="pub-chip" href="https://ieeexplore.ieee.org/document/9957522" target="_blank">IUS 2022</a>
+            <a class="pub-chip" href="https://doi.org/10.1017/S1431927622006389" target="_blank">M&amp;M 2022</a>
+            <a class="pub-chip" href="https://doi.org/10.1109/IUS52206.2021.9593762" target="_blank">IUS 2021</a>
+          </div>
+        </div>
+        <div class="card-media">
+          <!-- <img src="assets/celegans.gif" alt="C. elegans GHz imaging"> -->
+          Image / GIF placeholder
+        </div>
+      </div>
+
+      <div class="research-card">
+        <div>
+          <h3>GHz Ultrasonics with Optical &amp; Mechanical Integration</h3>
+          <p>
+            Integrating GHz ultrasonic transducer arrays with optical and mechanical sensing modalities
+            to build compact multi-modal imagers for cells, tissues, and materials. Applications span
+            medical diagnostics, hydrogel mechanobiology, semiconductor metrology, flexible
+            electronics inspection, and microfluidic imaging.
+          </p>
+          <div class="card-pubs">
+            <a class="pub-chip" href="https://doi.org/10.1109/MEMS58180.2024.10439458" target="_blank">MEMS 2024</a>
+            <a class="pub-chip" href="https://doi.org/10.1109/MEMS58180.2024.10439581" target="_blank">MEMS 2024</a>
+            <a class="pub-chip" href="https://ieeexplore.ieee.org/document/10516902" target="_blank">Transducers 2023</a>
+            <a class="pub-chip" href="https://doi.org/10.1109/ius51837.2023.10307657" target="_blank">IUS 2023</a>
+            <a class="pub-chip" href="https://doi.org/10.1109/IUS54386.2022.9958496" target="_blank">IUS 2022</a>
+            <a class="pub-chip" href="https://doi.org/10.1109/MEMS51670.2022.9699813" target="_blank">MEMS 2022</a>
+          </div>
+        </div>
+        <div class="card-media">
+          <!-- <img src="assets/integration.gif" alt="Multi-modal integration"> -->
+          Image / GIF placeholder
+        </div>
+      </div>
+
+      <div class="research-card">
+        <div>
+          <h3>Droplet &amp; Bubble Dynamics</h3>
+          <p>
+            Experimental and theoretical study of bubble and droplet mechanics at fluid interfaces —
+            including backflipping bubble collisions with tilted walls and the Rayleigh–Taylor instability
+            governing water ejection from the ear canal. This work combines high-speed imaging,
+            fabricated PDMS micromodels, and analytical fluid mechanics.
+          </p>
+          <div class="card-pubs">
+            <a class="pub-chip" href="https://doi.org/10.48550/arXiv.2208.14486" target="_blank">arXiv (under review)</a>
+            <a class="pub-chip" href="https://doi.org/10.1017/jfm.2023.309" target="_blank">J. Fluid Mech. 2023</a>
+          </div>
+        </div>
+        <div class="card-media">
+          <!-- <img src="assets/bubbles.gif" alt="Bubble dynamics"> -->
+          Image / GIF placeholder
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="container">
+    <div class="section-label">Publications</div>
+    <h2>Journal &amp; Conference Papers</h2>
+    <div class="pub-list">
+
+      <div class="pub-item">
+        <div class="pub-venue">arXiv 2024 · Under Review</div>
+        <h3>Backflipping motion of air bubbles colliding with a tilted wall</h3>
+        <div class="pub-authors">Hooshanginejad, A., <strong>Baskota, A.</strong>, &amp; Jung, S.</div>
+        <div class="pub-meta"><a href="https://doi.org/10.48550/arXiv.2208.14486" target="_blank">arXiv:2208.14486</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">IEEE IUS 2024</div>
+        <h3>Combining Gas Vesicle Acoustic Contrast Agents with Field-Deployable GHz Frequency Ultrasonic Chips to Detect Gene Expression in Sentinel Microorganisms</h3>
+        <div class="pub-authors">Dev, I., <strong>Baskota, A.</strong>, Kuo, J., Shapiro, M., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>2024 IEEE International Ultrasonics Symposium (IUS)</em> · <a href="https://doi.org/10.1109/UFFC-JS60046.2024.10793589" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">IEEE IUS 2024</div>
+        <h3>Modeling GHz Ultrasonic Impedance of <em>C. elegans</em> Cuticle</h3>
+        <div class="pub-authors"><strong>Baskota, A.</strong>, Chaturbedi, A., Chang, H., Kuo, J., Ardanuc, S., Lee, S., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>2024 IEEE International Ultrasonics Symposium (IUS)</em> · <a href="https://doi.org/10.1109/UFFC-JS60046.2024.10794041" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">Hilton Head 2024</div>
+        <h3>AI-Driven Scanning GHz Ultrasonic Imaging-Based MEMS Metrology</h3>
+        <div class="pub-authors">Jha, K., <strong>Baskota, A.</strong>, Kuo, J., Hwang, J., Ardanuc, A., Zimmerman, S., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>Hilton Head Workshop 2024: Solid-State Sensors, Actuators and Microsystems</em></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">IEEE MEMS 2024</div>
+        <h3>Sonic Fourier Transform Imaging using GHz Ultrasonic Transducer Array</h3>
+        <div class="pub-authors">Hwang, J., Kuo, J.C., <strong>Baskota, A.</strong>, &amp; Lal, A.</div>
+        <div class="pub-meta"><em>2024 IEEE 37th International Conference on Micro Electromechanical Systems (MEMS)</em> · <a href="https://doi.org/10.1109/MEMS58180.2024.10439581" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">IEEE MEMS 2024</div>
+        <h3>Towards GHz Ultrasound Enabled Noninvasive Hydrogel Metrology for Mechanobiology</h3>
+        <div class="pub-authors">Manav, Y.A., Sebastian, F., <strong>Baskota, A.</strong>, Kuo, J.C., Amini, R., Lal, A., &amp; Davaji, B.</div>
+        <div class="pub-meta"><em>2024 IEEE 37th International Conference on Micro Electromechanical Systems (MEMS)</em>, Austin · <a href="https://doi.org/10.1109/MEMS58180.2024.10439458" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">Transducers 2023</div>
+        <h3>Visualization of Fluid Mixing using GHz Ultrasonic Imaging</h3>
+        <div class="pub-authors"><strong>Baskota, A.</strong>, Kuo, J., Ardanuc, S., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>Transducers 2023</em>, Kyoto, Japan · <a href="https://ieeexplore.ieee.org/document/10516902" target="_blank">IEEE</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">IEEE IUS 2023</div>
+        <h3>Characterization of Cells and Tissues using a Compact GHz Ultrasonic Imager</h3>
+        <div class="pub-authors"><strong>Baskota, A.</strong>, Kuo, J., Ardanuç, S., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>2023 IEEE International Ultrasonics Symposium (IUS)</em>, Montreal · <a href="https://doi.org/10.1109/ius51837.2023.10307657" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">J. Fluid Mechanics 2023</div>
+        <h3>Mechanics of Removing Water from the Ear Canal: Rayleigh–Taylor Instability</h3>
+        <div class="pub-authors">Kim, S., <strong>Baskota, A.</strong>, Kang, H., &amp; Jung, S.</div>
+        <div class="pub-meta"><em>Journal of Fluid Mechanics</em>, 963, A12 · <a href="https://doi.org/10.1017/jfm.2023.309" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">Microscopy &amp; Microanalysis 2023</div>
+        <h3>Compact GHz Ultrasonic Micro-Imager for Cells and Tissues</h3>
+        <div class="pub-authors"><strong>Baskota, A.</strong>, Kuo, J., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>Microscopy and Microanalysis</em>, 29(S1), 1116–1117 · <a href="https://doi.org/10.1093/micmic/ozad067.572" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">IEEE IUS 2022</div>
+        <h3>Nematode Species Differentiation Using GHz Ultrasonic Micro-Imager</h3>
+        <div class="pub-authors"><strong>Baskota, A.</strong>, Kuo, J., Ardanuc, S., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>2022 IEEE International Ultrasonics Symposium (IUS)</em>, Venice · <a href="https://ieeexplore.ieee.org/document/9957522" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">IEEE IUS 2022</div>
+        <h3>Gigahertz Metamaterial Ultrasonic Lens Characterization Using GHz CMOS Integrated Ultrasonic Micro-Imager</h3>
+        <div class="pub-authors">Hwang, J., <strong>Baskota, A.</strong>, Davaji, B., Kuo, J., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>2022 IEEE International Ultrasonics Symposium (IUS)</em>, Venice · <a href="https://ieeexplore.ieee.org/document/9958496" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">Microscopy &amp; Microanalysis 2022</div>
+        <h3>Real-time GHz Ultrasonic Imaging of Nematodes at Microscopic Resolution</h3>
+        <div class="pub-authors"><strong>Baskota, A.</strong>, Kuo, J., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>Microscopy and Microanalysis</em>, 28(S1), 1594–1596 · <a href="https://doi.org/10.1017/S1431927622006389" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">Hilton Head 2022</div>
+        <h3>In-Situ Ultrasonic Imaging of Printed Electronics Ink Deposition and Curing</h3>
+        <div class="pub-authors"><strong>Baskota, A.</strong>, Ivy, L., Ospina, C., Kuo, J., Hwang, J., Gund, V., Davaji, B., Doerschuk, P., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>Hilton Head Workshop 2022: Solid-State Sensors, Actuators and Microsystems</em> · <a href="https://transducer-research-foundation.org/technical_digests/HiltonHead_2022/hh2022_0364.pdf" target="_blank">PDF</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">IEEE MEMS 2022</div>
+        <h3>Gigahertz Ultrasonic Multi-imaging of Soil Temperature, Morphology, Moisture, and Nematodes</h3>
+        <div class="pub-authors"><strong>Baskota, A.</strong>, Kuo, J., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>2022 IEEE 35th International Conference on Micro Electromechanical Systems (MEMS)</em>, Tokyo · <a href="https://doi.org/10.1109/MEMS51670.2022.9699813" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-venue">IEEE IUS 2021</div>
+        <h3>Gigahertz Ultrasonic Imaging of Nematodes in Liquids, Soil, and Air</h3>
+        <div class="pub-authors">Kuo, J., <strong>Baskota, A.</strong>, Zimmerman, S., Hay, F., Pethybridge, S., &amp; Lal, A.</div>
+        <div class="pub-meta"><em>2021 IEEE International Ultrasonics Symposium (IUS)</em> · <a href="https://doi.org/10.1109/IUS52206.2021.9593762" target="_blank">DOI</a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TALKS -->
+<section id="talks">
+  <div class="container">
+    <div class="section-label">Talks &amp; Presentations</div>
+    <h2>Selected Talks &amp; Posters</h2>
+    <div class="talks-list">
+
+      <div class="talk-item">
+        <div class="talk-year">2024</div>
+        <div>
+          <h3>GHz Ultrasonic Imaging of Tissue with Force-Driven Tissue Elastography</h3>
+          <p>IEEE International Ultrasonics Symposium (IUS 2024) — Oral Presentation</p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2024</div>
+        <div>
+          <h3>GHz Ultrasonic Imaging Reveals Cuticle Stiffens with Age for <em>C. elegans</em></h3>
+          <p><em>C. elegans</em> Metabolism, Aging, Pathogenesis, Stress, and Small RNAs — Madison, WI</p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2024</div>
+        <div>
+          <h3>Flexible Hybrid Electronics Metrology Enabled by GHz Ultrasound</h3>
+          <p>Flex 2024 (SEMICON WEST), San Francisco, CA <span class="award-badge">1st Place Student Poster</span></p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2024</div>
+        <div>
+          <h3>CMOS Integrated GHz Ultrasonic MEMS</h3>
+          <p>TRF Topical Workshop on Hybrid and Heterogeneous Microsystems — Cambridge, MA</p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2024</div>
+        <div>
+          <h3>MicroTAS 2024</h3>
+          <p>28th International Conference on Miniaturized Systems for Chemistry and Life Sciences</p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2023</div>
+        <div>
+          <h3>GHz Ultrasonic Real-Time Pest Detection</h3>
+          <p>PestMonitor Challenge, Bayer Crop Science — Monheim, Germany <span class="award-badge">1st Prize · $10,000</span></p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2023</div>
+        <div>
+          <h3>High-Frequency Ultrasonic Imaging for Semiconductors</h3>
+          <p>Electronic Resurgence Initiative 2.0 Summit, DARPA — Seattle, WA</p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2022</div>
+        <div>
+          <h3>GHz Ultrasonic Technology — Consumer Electronics Showcase</h3>
+          <p>Consumer Technology Association (CES), Las Vegas, NV · <em>1 of 12 US government-funded startups selected</em></p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2022</div>
+        <div>
+          <h3>GHz Ultrasonic In-Situ Imaging of Soil Microbiomes</h3>
+          <p>CROPPS Symposium, Cornell University — Ithaca, NY</p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2022</div>
+        <div>
+          <h3>Characterizing the Aging of <em>C. elegans</em> using a GHz Ultrasonic Imager</h3>
+          <p><em>C. elegans</em> Metabolism, Aging, Pathogenesis, Stress, and Small RNAs — Madison, WI</p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2021</div>
+        <div>
+          <h3>A Backflipping Motion of a Bubble Impacting Tilted Surfaces</h3>
+          <p>74th Annual Meeting of the APS Division of Fluid Dynamics — Phoenix, AZ</p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2020</div>
+        <div>
+          <h3>Single Bubble Impacting a Curved Surface</h3>
+          <p>73rd Annual Meeting of the APS Division of Fluid Dynamics — Chicago, IL</p>
+        </div>
+      </div>
+
+      <div class="talk-item">
+        <div class="talk-year">2019</div>
+        <div>
+          <h3>Acceleration-Induced Water Ejection in the Human Ear Canal</h3>
+          <p>72nd Annual Meeting of the APS Division of Fluid Dynamics — Seattle, WA</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CV -->
+<section id="cv">
+  <div class="container">
+    <div class="section-label">Curriculum Vitae</div>
+    <h2>Education &amp; Experience</h2>
+
+    <div class="cv-block">
+      <div class="cv-subtitle">Education</div>
+      <div class="tl-item">
+        <div class="tl-year">2024 – 2029<br>(expected)</div>
+        <div class="tl-content">
+          <h3>Ph.D., Biomedical Engineering</h3>
+          <p>Cornell University, Ithaca, NY</p>
+          <p class="sub">Xu Lab · Multiphoton intravital imaging of tumor immunology</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2017 – 2021</div>
+        <div class="tl-content">
+          <h3>B.S., Biological Engineering</h3>
+          <p>Cornell University, Ithaca, NY · Minor in Biomedical Engineering</p>
+          <p class="sub">Dean's List (4 semesters)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <div class="cv-subtitle">Research Experience</div>
+      <div class="tl-item">
+        <div class="tl-year">Jan 2025 –<br>Present</div>
+        <div class="tl-content">
+          <h3>Graduate Researcher — Xu Lab, Cornell University</h3>
+          <p>2-photon / 3-photon intravital microscopy for immune-oncology · Advised by Prof. Chris Xu</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">Jun – Jul 2025</div>
+        <div class="tl-content">
+          <h3>Summer Research Intern — Dept. of Urology, Weill Cornell Medicine</h3>
+          <p>Rotating catheter imaging module for cystoscopy · Advised by Dr. Douglas S. Scherr</p>
+          <p class="sub">Filed provisional patent application</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">Jan 2019 –<br>Aug 2021</div>
+        <div class="tl-content">
+          <h3>Undergraduate Researcher — Bio-inspired Fluids Laboratory, Cornell University</h3>
+          <p>Bubble dynamics, droplet mechanics, high-speed imaging · Advised by Prof. Sunghwan Jung</p>
+          <p class="sub">2 papers · 4 conference presentations</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <div class="cv-subtitle">Industry Experience</div>
+      <div class="tl-item">
+        <div class="tl-year">Dec 2019 –<br>Jun 2024</div>
+        <div class="tl-content">
+          <h3>Geegah Inc. — Ithaca, NY</h3>
+          <p>VP of Imaging (2024) · Research Engineer (2021–2023) · Research Intern (2019–2021)</p>
+          <p class="sub">Designed GHz ultrasonic imaging protocols; collaborated with Cornell, Caltech, Google, Northeastern; co-authored 15 papers; contributed to $1.5M in grants (DARPA, DOE, SEMI); 3 provisional patents</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <div class="cv-subtitle">Teaching</div>
+      <div class="tl-item">
+        <div class="tl-year">Fall 2024</div>
+        <div class="tl-content">
+          <h3>Graduate Teaching Assistant — Cornell University</h3>
+          <p>Biomedical Circuits, Signals, and Systems (BME 3030)</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2018 – 2021</div>
+        <div class="tl-content">
+          <h3>Undergraduate Teaching Assistant — Cornell University</h3>
+          <p>BEE 4530 (Computer-Aided Engineering) · ECE 5960 (Piezoelectric Microsystems) · BEE 2600 · BIOG 1500</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-block">
+      <div class="cv-subtitle">Patents</div>
+      <ul class="inline-list">
+        <li><strong>Baskota, A.</strong> &amp; Scherr, D.S. Fluid-driven passive rotational imaging accessory for catheter-based cystoscopy. US Prov. Pat. No. 63/870,542 (Cornell University, 2023)</li>
+        <li>Lal, A., <strong>Baskota, A.</strong>, Lobo, T., Kuo, J. &amp; Ardanuc, S. GHz ultrasonic imaging of tissue with integrated tissue elastography. US Prov. Pat. No. 63,699,105 (Geegah Inc., 2024)</li>
+        <li>Lal, A., <strong>Baskota, A.</strong>, Kuo, J. &amp; Ardanuc, S. Method for Air Health Measurement using Ultrasonic Imagers. US Prov. Pat. No. 63,437,250 (Geegah Inc., 2023)</li>
+        <li>Lal, A., <strong>Baskota, A.</strong>, Kuo, J. &amp; Ardanuc, S. Method for Skin Health Measurement using Ultrasonic Imagers. US Prov. Pat. No. 63,437,253 (Geegah Inc., 2023)</li>
+      </ul>
+    </div>
+
+    <div class="cv-block">
+      <div class="cv-subtitle">Awards &amp; Honors</div>
+      <ul class="inline-list">
+        <li><strong>1st Prize</strong> — PestMonitor Challenge, Bayer Crop Science, Monheim, Germany (2023, $10,000)</li>
+        <li><strong>1st Place Student Poster</strong> — Flex 2024, SEMICON WEST, San Francisco</li>
+        <li>Consumer Electronics Showcase — 1 of 12 US government-funded startups selected, CES Las Vegas (2022)</li>
+        <li>Dean's List, Cornell University — 4 semesters (2018–2021)</li>
+        <li>Engineering Learning Initiative Award ($5,500) — COVID-19 3D-printed mask project (2020)</li>
+      </ul>
+    </div>
+
+    <div class="cv-block">
+      <div class="cv-subtitle">Service &amp; Professional Membership</div>
+      <ul class="inline-list">
+        <li><strong>Young Professional Chair</strong>, IEEE Ithaca Chapter (Feb 2025–Present)</li>
+        <li><strong>Technical Committee</strong>: MLCSB 2026 · MLCB 2025</li>
+        <li><strong>Peer Reviewer</strong>: IEEE Access (16 manuscripts) · Ultrasonics (2 manuscripts) · MLCB 2025 · ICECET 2025 · ACDSA 2025</li>
+        <li><strong>Member</strong>: IEEE · Microscopy Society of America · ASABE · AIChe SBE · American Physical Society</li>
+        <li>Co-President, International Students Admissions Ambassador, Cornell University (2020–2021)</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    &copy; 2025 Anuj Baskota · Cornell University · Biomedical Engineering
+  </div>
+</footer>
+
+</body>
+</html>
